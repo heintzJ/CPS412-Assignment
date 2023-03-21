@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
+import numpy as np
 import csv
 
-x = []
-y = []
-
+# graph of ages in the data
 def graphOfAges():
+  x = []
+  y = []
   with open('survey.csv', 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
@@ -26,4 +27,42 @@ def graphOfAges():
   plt.legend()
   plt.show()
 
-graphOfAges()
+# graph the faculty of against the question: Do you think ChatGPT would inhibit education?
+def facultyAndEducation():
+  with open('survey.csv', 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    # skip first line
+    next(plots)
+    faculties = {"Sciences Yes":0, "Non-Sciences Yes":0, "Sciences No":0, "Non-Sciences No":0}
+    for row in plots:
+        if row[3] == "Computer Science" or row[3] == "Engineering" or row[3] == "Health/Life Sciences" or row[3] == "Biomedical Sciences":
+          # If the key exists, increment its value by 1
+          if row[9] == "Yes":
+            faculties["Sciences Yes"] += 1
+          else:
+            faculties["Sciences No"] += 1
+        else:
+            if row[9] == "Yes":
+              faculties["Non-Sciences Yes"] += 1
+            else:
+              faculties["Non-Sciences No"] += 1
+
+    faculty = []
+    for k in faculties:
+      faculty.append(k)
+    yes = [faculties["Sciences Yes"], faculties["Non-Sciences Yes"]]
+    no = [faculties["Sciences No"], faculties["Non-Sciences No"]]
+
+  # plt.pie(y, labels=x)
+  l = np.arange(len(yes))
+  plt.bar(l-0.17, yes, color='g', label='Yes', width=0.35)
+  plt.bar(l+0.17, no, color='r', label='No', width=0.35)
+  plt.xlabel('Faculty')
+  plt.xticks([i for i in range(2)], ['Science', 'Non-Science'])
+  plt.ylabel('Student Responses')
+  plt.title('Do you think that using ChatGPT is a form of plagiarism?')
+  plt.legend(['Yes', 'No'], frameon=False)
+  plt.show()
+
+# graphOfAges()
+facultyAndEducation()
