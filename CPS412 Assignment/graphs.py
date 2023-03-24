@@ -1,12 +1,20 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
+import os
+
+# Get the absolute path of the directory containing the Python script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the relative path to the "survey.csv" file
+file_path = os.path.join(script_dir, 'survey.csv')
+
 
 # graph of ages in the data
 def graphOfAges():
   x = []
   y = []
-  with open('survey.csv', 'r') as csvfile:
+  with open(file_path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
     next(plots)
@@ -29,7 +37,7 @@ def graphOfAges():
 
 # graph the faculty of against the question: Do you think ChatGPT would inhibit education?
 def facultyAndEducation():
-  with open('survey.csv', 'r') as csvfile:
+  with open(file_path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
     next(plots)
@@ -70,7 +78,7 @@ def chatgptUsage():
   yes = []
   no_will = []
   no_willnot = []
-  with open('survey.csv', 'r') as csvfile:
+  with open(file_path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
     next(plots)
@@ -100,6 +108,18 @@ def chatgptUsage():
   plt.bar(shift, yes, color='b', width=0.3, label="Yes", align='center')
   plt.bar(shift-0.3, no_will, color='orange', width=0.3, label='No, but I am planning on it', align='center')
   plt.bar(shift+0.3, no_willnot, color='red', width=0.3, label='No, and I am not planning on it', align='center')
+
+# Add labels to the bars. Does not show 0 if there is no bar. If you want it to show 0 just remove the if statement.
+  for i, v in enumerate(yes):
+    if v > 0:
+      plt.text(i, v, str(v), ha='center', va='bottom')
+  for i, v in enumerate(no_will):
+    if v > 0:
+      plt.text(i-0.3, v, str(v), ha='center', va='bottom')
+  for i, v in enumerate(no_willnot):
+    if v > 0:
+      plt.text(i+0.3, v, str(v), ha='center', va='bottom')
+
   plt.xlabel('Faculty')
   plt.xticks(np.arange(len(x)), x)
   plt.ylabel('Student Responses')
@@ -107,6 +127,10 @@ def chatgptUsage():
   plt.legend()
   plt.show()
 
+def institutions():
+  unis = []
+
+
 # graphOfAges()
 # facultyAndEducation()
-chatgptUsage()
+#chatgptUsage()
