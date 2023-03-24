@@ -63,8 +63,8 @@ def facultyAndEducation():
 
   # plt.pie(y, labels=x)
   l = np.arange(len(yes))
-  plt.bar(l-0.17, yes, color='g', label='Yes', width=0.35)
-  plt.bar(l+0.17, no, color='r', label='No', width=0.35)
+  plt.bar(l-0.17, yes, color='#2ca02c', label='Yes', width=0.35, edgecolor = 'black', linewidth = 1.5)
+  plt.bar(l+0.17, no, color='#d62728', label='No', width=0.35, edgecolor = 'black', linewidth = 1.5)
   plt.xlabel('Faculty')
   plt.xticks([i for i in range(2)], ['Science', 'Non-Science'])
   plt.ylabel('Student Responses')
@@ -129,8 +129,11 @@ def chatgptUsage():
 
 def institutions():
   unis = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    # skip first line
+    next(plots)
 
-
-# graphOfAges()
-# facultyAndEducation()
+#graphOfAges()
+facultyAndEducation()
 #chatgptUsage()
