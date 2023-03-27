@@ -70,6 +70,12 @@ def facultyAndEducation():
   plt.ylabel('Student Responses')
   plt.title('Do you think that using ChatGPT is a form of plagiarism?')
   plt.legend(['Yes', 'No'], frameon=False)
+  for i, v in enumerate(yes):
+    if v > 0:
+      plt.text(i-0.17, v+0.1, str(v), ha='center', va='bottom', fontweight='bold')
+  for i, v in enumerate(no):
+    if v > 0:
+      plt.text(i+0.17, v+0.1, str(v), ha='center', va='bottom', fontweight='bold')
   plt.show()
 
 # Faculty vs ChatGPT usage
@@ -105,20 +111,23 @@ def chatgptUsage():
 
   plt.figure(figsize=(10,6))
   shift = np.arange(len(x))
-  plt.bar(shift, yes, color='b', width=0.3, label="Yes", align='center')
-  plt.bar(shift-0.3, no_will, color='orange', width=0.3, label='No, but I am planning on it', align='center')
-  plt.bar(shift+0.3, no_willnot, color='red', width=0.3, label='No, and I am not planning on it', align='center')
+  colors = ['black' if y > 0 else 'white' for y in yes]
+  plt.bar(shift, yes, color='b', width=0.3, label="Yes", align='center', edgecolor = colors, linewidth = 1.5)
+  colors = ['black' if y > 0 else 'white' for y in no_will]
+  plt.bar(shift-0.3, no_will, color='orange', width=0.3, label='No, but I am planning on it', align='center', edgecolor = colors, linewidth = 1.5)
+  colors = ['black' if y > 0 else 'white' for y in no_willnot]
+  plt.bar(shift+0.3, no_willnot, color='red', width=0.3, label='No, and I am not planning on it', align='center', edgecolor = colors, linewidth = 1.5)
 
 # Add labels to the bars. Does not show 0 if there is no bar. If you want it to show 0 just remove the if statement.
   for i, v in enumerate(yes):
     if v > 0:
-      plt.text(i, v, str(v), ha='center', va='bottom')
+      plt.text(i, v, str(v), ha='center', va='bottom', fontweight='bold')
   for i, v in enumerate(no_will):
     if v > 0:
-      plt.text(i-0.3, v, str(v), ha='center', va='bottom')
+      plt.text(i-0.3, v, str(v), ha='center', va='bottom', fontweight='bold')
   for i, v in enumerate(no_willnot):
     if v > 0:
-      plt.text(i+0.3, v, str(v), ha='center', va='bottom')
+      plt.text(i+0.3, v, str(v), ha='center', va='bottom', fontweight='bold')
 
   plt.xlabel('Faculty')
   plt.xticks(np.arange(len(x)), x)
@@ -135,5 +144,5 @@ def institutions():
     next(plots)
 
 #graphOfAges()
-facultyAndEducation()
-#chatgptUsage()
+#facultyAndEducation()
+chatgptUsage()
