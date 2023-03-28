@@ -145,10 +145,10 @@ def institutions():
     next(plots)
     unis = {}
     for row in plots:
-      if row[4] not in unis:
-        unis[row[4]] = 1
+      if row[5] not in unis:
+        unis[row[5]] = 1
       else :
-        unis[row[4]] += 1
+        unis[row[5]] += 1
     
     for k in unis:
       x.append(k)
@@ -156,6 +156,37 @@ def institutions():
     plt.pie(y, labels = x)
     plt.show()
     
+def howDoYouUseChatGTP():
+  x = []
+  y = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    # skip first line
+    next(plots)
+    useCases = {'Help with assignments': 0,
+                'Work related information': 0,
+                'Entertainment purposes': 0,
+                'Media production': 0,
+                'Other': 0}
+    for row in plots:
+        if row[7] in useCases.keys():
+          # If the key exists, increment its value by 1
+          useCases[row[7]] += 1
+        else:
+          useCases['Other'] += 1
+    for k in useCases:
+      x.append(k)
+      y.append(useCases[k])
+
+  plt.bar(x, y, color='g', width=0.72, label="Count")
+  plt.xlabel('Response')
+  plt.ylabel('Number of Responses')
+  plt.title('What do You Use ChatGPT For?')
+  plt.legend()
+  plt.show()
+
 #graphOfAges()
-#facultyAndEducation()
-chatgptUsage()
+# facultyAndEducation()
+# chatgptUsage()
+# howDoYouUseChatGTP()
+institutions()
