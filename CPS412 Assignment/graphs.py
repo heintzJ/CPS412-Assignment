@@ -193,8 +193,34 @@ def howDoYouUseChatGTP():
   plt.legend()
   plt.show()
 
+def gender():
+  x = []
+  y = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    # skip first line
+    next(plots)
+    gender = {}
+    for row in plots:
+      if row[2] not in gender:
+        gender[row[2]] = 1
+      else :
+        gender[row[2]] += 1
+    
+    for k in gender:
+      x.append(k)
+      y.append(gender[k])
+
+    explode = (0, 0, 0.1)
+    colours = ["purple", "blue", "hotpink"]
+    _, _, graph = plt.pie(y, labels = x, colors=colours, autopct='%1.1f%%', explode=explode, shadow=True)
+    for text in graph:
+      text.set_color('white')
+    plt.show()
+
 #graphOfAges()
 # facultyAndEducation()
 # chatgptUsage()
-howDoYouUseChatGTP()
+# howDoYouUseChatGTP()
 # institutions()
+gender()
