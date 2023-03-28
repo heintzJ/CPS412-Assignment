@@ -145,15 +145,16 @@ def institutions():
     next(plots)
     unis = {}
     for row in plots:
-      if row[4] not in unis:
-        unis[row[4]] = 1
+      if row[5] not in unis:
+        unis[row[5]] = 1
       else :
-        unis[row[4]] += 1
+        unis[row[5]] += 1
     
     for k in unis:
       x.append(k)
       y.append(unis[k])
     plt.pie(y, labels = x)
+    plt.show()
     
 def howDoYouUseChatGTP():
   x = []
