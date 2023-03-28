@@ -136,11 +136,16 @@ def chatgptUsage():
   plt.show()
 
 def institutions():
-  unis = []
   with open(file_path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
     next(plots)
+    unis = {}
+    for row in plots:
+      if row[4] not in unis:
+        unis[row[4]] = 0
+      else :
+        unis[row[4]] += 1
 
 def howDoYouUseChatGTP():
   x = []
