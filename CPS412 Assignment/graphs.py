@@ -61,6 +61,7 @@ def facultyAndEducation():
     yes = [faculties["Sciences Yes"], faculties["Non-Sciences Yes"]]
     no = [faculties["Sciences No"], faculties["Non-Sciences No"]]
 
+  # plt.pie(y, labels=x)
   l = np.arange(len(yes))
   plt.bar(l-0.17, yes, color='#2ca02c', label='Yes', width=0.35, edgecolor = 'black', linewidth = 1.5)
   plt.bar(l+0.17, no, color='#d62728', label='No', width=0.35, edgecolor = 'black', linewidth = 1.5)
@@ -136,6 +137,8 @@ def chatgptUsage():
   plt.show()
 
 def institutions():
+  x = []
+  y = []
   with open(file_path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
@@ -143,7 +146,7 @@ def institutions():
     unis = {}
     for row in plots:
       if row[4] not in unis:
-        unis[row[4]] = 0
+        unis[row[4]] = 1
       else :
         unis[row[4]] += 1
 
@@ -167,16 +170,10 @@ def howDoYouUseChatGTP():
           useCases['Other'] += 1
     for k in useCases:
       x.append(k)
-      y.append(useCases[k])
-
-  plt.bar(x, y, color='g', width=0.72, label="Count")
-  plt.xlabel('Response')
-  plt.ylabel('Number of Responses')
-  plt.title('What do You Use ChatGPT For?')
-  plt.legend()
-  plt.show()
-
+      y.append(unis[k])
+    plt.pie(y, labels = x)
+    plt.show()
+    
 #graphOfAges()
-# facultyAndEducation()
-# chatgptUsage()
-howDoYouUseChatGTP()
+#facultyAndEducation()
+chatgptUsage()
