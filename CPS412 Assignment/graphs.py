@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import os
+import itertools
 
 # Get the absolute path of the directory containing the Python script
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +25,6 @@ def graphOfAges():
           # If the key exists, increment its value by 1
           ages[row[1]] += 1
     for k in ages:
-
       x.append(k)
       y.append(ages[k])
 
@@ -164,21 +164,29 @@ def howDoYouUseChatGTP():
     # skip first line
     next(plots)
     useCases = {'Help with assignments': 0,
-                'Work related information': 0,
-                'Entertainment purposes': 0,
-                'Media production': 0,
+                ' Work related information': 0,
+                ' Entertainment purposes': 0,
+                ' Media production': 0,
                 'Other': 0}
     for row in plots:
-        if row[7] in useCases.keys():
-          # If the key exists, increment its value by 1
-          useCases[row[7]] += 1
-        else:
-          useCases['Other'] += 1
+        s = str(row[7])
+        splitString = s.split(",")
+        print(splitString)
+        for w in splitString:
+          if w in useCases.keys():
+            # If the key exists, increment its value by 1
+            useCases[w] += 1
+          elif w == '':
+            pass
+          else:
+            useCases['Other'] += 1
     for k in useCases:
       x.append(k)
       y.append(useCases[k])
 
-  plt.bar(x, y, color='g', width=0.72, label="Count")
+  plt.figure(figsize=(8,5))
+  plt.bar(x, y, color='b', width=0.5, label="Count")
+  plt.xticks(fontsize=6)
   plt.xlabel('Response')
   plt.ylabel('Number of Responses')
   plt.title('What do You Use ChatGPT For?')
@@ -188,5 +196,5 @@ def howDoYouUseChatGTP():
 #graphOfAges()
 # facultyAndEducation()
 # chatgptUsage()
-# howDoYouUseChatGTP()
-institutions()
+howDoYouUseChatGTP()
+# institutions()
