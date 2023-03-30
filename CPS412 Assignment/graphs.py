@@ -218,9 +218,33 @@ def gender():
       text.set_color('white')
     plt.show()
 
-#graphOfAges()
+def potentialUses():
+  x = []
+  y = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    # skip first line
+    next(plots)
+    cases = {}
+    for row in plots:
+      if row[10] not in cases:
+        cases[row[10]] = 1
+      else :
+        cases[row[10]] += 1
+    
+    for k in cases:
+      x.append(k)
+      y.append(cases[k])
+
+    _, _, graph = plt.pie(y, autopct='%1.1f%%')
+    for text in graph:
+      text.set_color('white')
+    plt.legend(x, title="Response", loc="right", bbox_to_anchor=(1.6,0,0.5,2))
+    plt.show()
+# graphOfAges()
 # facultyAndEducation()
 # chatgptUsage()
 # howDoYouUseChatGTP()
 # institutions()
-gender()
+# gender()
+potentialUses()
