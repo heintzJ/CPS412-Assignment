@@ -329,13 +329,44 @@ def chatgptInWork():
       plt.text(v + 0.2, i, str(v), color='black', fontweight='bold')
     plt.show()
 
+#Does ChatGPT inhibit education?
+def chatgptAndEdu():
+  labels = []
+  data = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    next(plots)
+
+    options = {}
+
+    for row in plots:
+      if row[9] not in options:
+        options[row[9]] = 1
+      else:
+        options[row[9]] += 1
+
+    for k in options:
+      labels.append(k)
+      data.append(options[k])
+    
+    colours = ['palegreen','lawngreen']
+    explode = (0.1,0)
+    _, _, graph = plt.pie(data, labels = options, colors=colours, explode=explode, shadow=True, autopct='%1.1f%%',
+                          textprops={'horizontalalignment': 'center', 'verticalalignment': 'center', 'weight':'bold'},
+                          wedgeprops={'edgecolor': 'black'}, startangle=-105, labeldistance=1.2)
+
+    plt.title("Does ChatGPT Inhibit Education?")
+    plt.show()
+
 if __name__ == '__main__':    
   # graphOfAges()
   # facultyAndEducation()
   # chatgptUsageByMajor()
   # chatgptUsage()
   # howDoYouUseChatGPT()
-  institutions()
+  # institutions()
   # gender()
   # potentialUses()
   # chatgptInWork()
+  chatgptAndEdu()
+  
