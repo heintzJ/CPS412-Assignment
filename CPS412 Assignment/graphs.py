@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import os
+import textwrap
 
 # Get the absolute path of the directory containing the Python script
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -69,6 +70,8 @@ def facultyAndEducation():
   plt.ylabel('Student Responses')
   plt.title('Do you think that using ChatGPT is a form of plagiarism?')
   plt.legend(['Yes', 'No'], frameon=False)
+
+  #displays number of responses for each bar option
   for i, v in enumerate(yes):
     if v > 0:
       plt.text(i-0.17, v+0.1, str(v), ha='center', va='bottom', fontweight='bold')
@@ -78,7 +81,7 @@ def facultyAndEducation():
   plt.show()
 
 # Faculty vs ChatGPT usage
-def chatgptUsage():
+def chatgptUsageByMajor():
   x = []
   yes = []
   no_will = []
@@ -135,6 +138,33 @@ def chatgptUsage():
   plt.legend()
   plt.show()
 
+#chatGPT usage regardless of major
+def chatgptUsage():
+  options = []
+  data = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    # skip first line
+    next(plots)
+    response = {}
+
+    for row in plots:
+      if row[6] not in response:
+        response[row[6]] = 1
+      else:
+        response[row[6]] += 1
+
+    for k in response:
+      options.append(k)
+      data.append(response[k])
+
+    colours = ["cyan", "purple", "gray"]
+    explode = (0.1,0,0)
+    _, _, graph = plt.pie(data, labels = options, colors=colours, explode=explode, shadow=True, autopct='%1.1f%%',
+                          textprops={'horizontalalignment': 'center', 'verticalalignment': 'center'},
+                          wedgeprops={'edgecolor': 'black'})
+    plt.title('Usage of chatGPT')
+    plt.show()
 
 def institutions():
 
@@ -177,7 +207,7 @@ def institutions():
 
     plt.show()
 
-def howDoYouUseChatGTP():
+def howDoYouUseChatGPT():
   x = []
   y = []
   with open(file_path, 'r') as csvfile:
@@ -262,10 +292,46 @@ def potentialUses():
       text.set_color('white')
     plt.legend(x, title="Response", loc="right", bbox_to_anchor=(1.6,0,0.05,2))
     plt.show()
-# graphOfAges()
-# facultyAndEducation()
-# chatgptUsage()
-# howDoYouUseChatGTP()
-# institutions()
-# gender()
-# potentialUses()
+
+def chatgptInWork():
+  labels = []
+  data = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    #skip the first 6 lines
+    for i in range(6):
+      next(plots)
+
+    options = {}
+
+    for row in plots:
+        if row[-1] not in options:
+          options[row[-1]] = 1
+        else:
+          options[row[-1]] += 1
+
+    for k in options:
+      labels.append(k)
+      data.append(options[k])
+
+    colours = ['aqua','turquoise','lightseagreen','teal']
+    plt.barh(labels, data, color=colours, height=0.5, edgecolor='black', linewidth=1.1)
+    # able to split the labels in multiple lines rather than one long line
+    wrapped_labels = [ '\n'.join(textwrap.wrap(label, width=20)) for label in labels ]
+    plt.yticks(labels, wrapped_labels)
+    plt.title("What Do You Think of ChatGPT In The Workplace?")
+    plt.subplots_adjust(left=0.25)
+    for i, v in enumerate(data):
+      plt.text(v + 0.2, i, str(v), color='black', fontweight='bold')
+    plt.show()
+
+if __name__ == '__main__':    
+  # graphOfAges()
+  # facultyAndEducation()
+  # chatgptUsageByMajor()
+  #chatgptUsage()
+  # howDoYouUseChatGPT()
+  # institutions()
+  # gender()
+  # potentialUses()
+  chatgptInWork()
