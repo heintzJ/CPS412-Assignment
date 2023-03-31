@@ -134,7 +134,7 @@ def chatgptUsageByMajor():
   plt.xlabel('Faculty')
   plt.xticks(np.arange(len(x)), x)
   plt.ylabel('Student Responses')
-  plt.title('Have you Used ChatGPT?')
+  plt.title('Have You Used ChatGPT?')
   plt.legend()
   plt.show()
 
@@ -163,7 +163,7 @@ def chatgptUsage():
     _, _, graph = plt.pie(data, labels = options, colors=colours, explode=explode, shadow=True, autopct='%1.1f%%',
                           textprops={'horizontalalignment': 'center', 'verticalalignment': 'center'},
                           wedgeprops={'edgecolor': 'black'})
-    plt.title('Usage of chatGPT')
+    plt.title('Have You Used ChatGPT?')
     plt.show()
 
 def institutions():
@@ -186,26 +186,30 @@ def institutions():
       name.append(k)
       data.append(unis[k])
 
+    total = sum(data)
     fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
-    wedges, texts = ax.pie(data, startangle=33)
-    #box around label
-    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
-    kw = dict(arrowprops=dict(arrowstyle="-"),
-              bbox=bbox_props, zorder=0, va="center")
-    #lines connecting to pie graph and label
-    for i, p in enumerate(wedges):
-        ang = (p.theta2 - p.theta1)/2. + p.theta1
-        y = np.sin(np.deg2rad(ang))
-        x = np.cos(np.deg2rad(ang))
-        horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
-        connectionstyle = f"angle,angleA=0,angleB={ang}"
-        kw["arrowprops"].update({"connectionstyle": connectionstyle})
-        ax.annotate(name[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
-                    horizontalalignment=horizontalalignment, **kw)
+  wedges, texts, autotexts = ax.pie(data, autopct=lambda pct: f'{pct:.1f}%' if pct > 5 else '', textprops={'weight':'bold', 'fontsize':20}, startangle=33)
+  #box around label
+  bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+  kw = dict(arrowprops=dict(arrowstyle="-"),
+            bbox=bbox_props, zorder=0, va="center")
+  #lines connecting to pie graph and label
+  for i, p in enumerate(wedges):
+    ang = (p.theta2 - p.theta1)/2. + p.theta1
+    y = np.sin(np.deg2rad(ang))
+    x = np.cos(np.deg2rad(ang))
+    horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
+    connectionstyle = f"angle,angleA=0,angleB={ang}"
+    kw["arrowprops"].update({"connectionstyle": connectionstyle})
+    if data[i] / total > 0.05:
+      ax.annotate(f'{name[i]} ({data[i]})', xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
+              horizontalalignment=horizontalalignment, **kw)
+    else:
+      ax.annotate(name[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
+              horizontalalignment=horizontalalignment, **kw)
 
-    ax.set_title("Institutions")
-
-    plt.show()
+  ax.set_title("Institutions")
+  plt.show()
 
 def howDoYouUseChatGPT():
   x = []
@@ -329,9 +333,9 @@ if __name__ == '__main__':
   # graphOfAges()
   # facultyAndEducation()
   # chatgptUsageByMajor()
-  #chatgptUsage()
+  # chatgptUsage()
   # howDoYouUseChatGPT()
-  # institutions()
+  institutions()
   # gender()
   # potentialUses()
-  chatgptInWork()
+  # chatgptInWork()
