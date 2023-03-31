@@ -136,6 +136,7 @@ def chatgptUsage():
   plt.legend()
   plt.show()
 
+
 def institutions():
   x = []
   y = []
@@ -153,9 +154,41 @@ def institutions():
     for k in unis:
       x.append(k)
       y.append(unis[k])
-    plt.pie(y, labels = x)
-    plt.show()
+    wedges, _ = plt.pie(y)
+    plt.title("Institutions")
     
+    bbox_props = dict(boxstyle="round,pad=0.3", fc="white", ec="gray", lw=1, alpha=0.9)
+    for i, patch in enumerate(wedges):
+      # Calculate the midpoint angle of the wedge
+      mid_angle = (patch.theta1 + patch.theta2) / 2.0
+      # Calculate the coordinates of the end of the line
+      endx = patch.r * 1.1 * np.cos(mid_angle * np.pi / 180)
+      endy = patch.r * 1.1 * np.sin(mid_angle * np.pi / 180)
+      # Draw the leader line
+      lx, ly = patch.r * np.cos(mid_angle * np.pi / 180), patch.r * np.sin(mid_angle * np.pi / 180)
+      plt.plot([lx, endx], [ly, endy], color='k', linestyle='-', linewidth=0.5)
+      # Draw the label with a bounding box
+      tx, ty = 1.15 * patch.r * np.cos(mid_angle * np.pi / 180), 1.15 * patch.r * np.sin(mid_angle * np.pi / 180)
+      # adjust label position to avoid overlap
+      if mid_angle > 90 and mid_angle < 270:
+        tx -= len(x[i]) * 0.01 * patch.r
+        ha = 'right'
+      else:
+          tx += len(x[i]) * 0.01 * patch.r
+          ha = 'left'
+      plt.text(tx, ty, x[i], horizontalalignment=ha, verticalalignment='center', bbox=bbox_props)
+      
+      # Draw the second line connecting the label to the end of the leader line
+      if mid_angle > 90 and mid_angle < 270:
+          labelx = endx - len(x[i]) * 0.02 * patch.r
+      else:
+          labelx = endx + len(x[i]) * 0.02 * patch.r
+      labely = endy
+      plt.plot([labelx, endx], [labely, endy], color='k', linestyle='-', linewidth=0.5)
+
+    plt.show()
+
+
 def howDoYouUseChatGTP():
   x = []
   y = []
@@ -245,6 +278,6 @@ def potentialUses():
 # facultyAndEducation()
 # chatgptUsage()
 # howDoYouUseChatGTP()
-# institutions()
+institutions()
 # gender()
-potentialUses()
+# potentialUses()
