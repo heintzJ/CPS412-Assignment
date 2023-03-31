@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import os
-import itertools
 
 # Get the absolute path of the directory containing the Python script
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -138,56 +137,45 @@ def chatgptUsage():
 
 
 def institutions():
-  x = []
-  y = []
+
+  name = []
+  data = []
   with open(file_path, 'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=',')
     # skip first line
     next(plots)
     unis = {}
+
     for row in plots:
       if row[5] not in unis:
         unis[row[5]] = 1
       else :
         unis[row[5]] += 1
-    
+
     for k in unis:
-      x.append(k)
-      y.append(unis[k])
-    wedges, _ = plt.pie(y)
-    plt.title("Institutions")
-    
-    bbox_props = dict(boxstyle="round,pad=0.3", fc="white", ec="gray", lw=1, alpha=0.9)
-    for i, patch in enumerate(wedges):
-      # Calculate the midpoint angle of the wedge
-      mid_angle = (patch.theta1 + patch.theta2) / 2.0
-      # Calculate the coordinates of the end of the line
-      endx = patch.r * 1.1 * np.cos(mid_angle * np.pi / 180)
-      endy = patch.r * 1.1 * np.sin(mid_angle * np.pi / 180)
-      # Draw the leader line
-      lx, ly = patch.r * np.cos(mid_angle * np.pi / 180), patch.r * np.sin(mid_angle * np.pi / 180)
-      plt.plot([lx, endx], [ly, endy], color='k', linestyle='-', linewidth=0.5)
-      # Draw the label with a bounding box
-      tx, ty = 1.15 * patch.r * np.cos(mid_angle * np.pi / 180), 1.15 * patch.r * np.sin(mid_angle * np.pi / 180)
-      # adjust label position to avoid overlap
-      if mid_angle > 90 and mid_angle < 270:
-        tx -= len(x[i]) * 0.01 * patch.r
-        ha = 'right'
-      else:
-          tx += len(x[i]) * 0.01 * patch.r
-          ha = 'left'
-      plt.text(tx, ty, x[i], horizontalalignment=ha, verticalalignment='center', bbox=bbox_props)
-      
-      # Draw the second line connecting the label to the end of the leader line
-      if mid_angle > 90 and mid_angle < 270:
-          labelx = endx - len(x[i]) * 0.02 * patch.r
-      else:
-          labelx = endx + len(x[i]) * 0.02 * patch.r
-      labely = endy
-      plt.plot([labelx, endx], [labely, endy], color='k', linestyle='-', linewidth=0.5)
+      name.append(k)
+      data.append(unis[k])
+
+    fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+    wedges, texts = ax.pie(data, startangle=33)
+    #box around label
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    kw = dict(arrowprops=dict(arrowstyle="-"),
+              bbox=bbox_props, zorder=0, va="center")
+    #lines connecting to pie graph and label
+    for i, p in enumerate(wedges):
+        ang = (p.theta2 - p.theta1)/2. + p.theta1
+        y = np.sin(np.deg2rad(ang))
+        x = np.cos(np.deg2rad(ang))
+        horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
+        connectionstyle = f"angle,angleA=0,angleB={ang}"
+        kw["arrowprops"].update({"connectionstyle": connectionstyle})
+        ax.annotate(name[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
+                    horizontalalignment=horizontalalignment, **kw)
+
+    ax.set_title("Institutions")
 
     plt.show()
-
 
 def howDoYouUseChatGTP():
   x = []
@@ -272,12 +260,12 @@ def potentialUses():
     _, _, graph = plt.pie(y, autopct='%1.1f%%')
     for text in graph:
       text.set_color('white')
-    plt.legend(x, title="Response", loc="right", bbox_to_anchor=(1.6,0,0.5,2))
+    plt.legend(x, title="Response", loc="right", bbox_to_anchor=(1.6,0,0.05,2))
     plt.show()
 # graphOfAges()
 # facultyAndEducation()
 # chatgptUsage()
 # howDoYouUseChatGTP()
-institutions()
+# institutions()
 # gender()
 # potentialUses()
