@@ -329,6 +329,35 @@ def chatgptInWork():
       plt.text(v + 0.2, i, str(v), color='black', fontweight='bold')
     plt.show()
 
+def chatgptPlagiarism():
+  labels = []
+  data = []
+  with open(file_path, 'r') as csvfile:
+    plots = csv.reader(csvfile, delimiter=',')
+    #skip the first 6 lines
+    for i in range(6):
+      next(plots)
+
+    options = {}
+
+    for row in plots:
+      if row[10] not in options:
+        options[row[10]] = 1
+      else:
+        options[row[10]] += 1
+
+    for k in options:
+      labels.append('\n'.join(textwrap.wrap(k, 15)))
+      data.append(options[k])
+
+    colours = ['darkkhaki','khaki','gold','goldenrod']
+    explode = (0.1,0,0,0)
+    _, _, graph = plt.pie(data, labels=labels, colors=colours, explode=explode, shadow=True, autopct='%1.1f%%',
+                          textprops={'horizontalalignment': 'center', 'verticalalignment': 'center', 'weight':'bold'},
+                          wedgeprops={'edgecolor': 'black'}, startangle=-105, labeldistance=1.2)
+    plt.title("Is ChatGPT a form of Plagiarism")
+    plt.show()
+
 #Does ChatGPT inhibit education?
 def chatgptAndEdu():
   labels = []
@@ -368,5 +397,6 @@ if __name__ == '__main__':
   # gender()
   # potentialUses()
   # chatgptInWork()
-  chatgptAndEdu()
+  chatgptPlagiarism()
+  # chatgptAndEdu()
   
