@@ -34,12 +34,11 @@ def graphOfAges():
     for k in ages:
       x.append(k)
       y.append(ages[k])
-
-  plt.bar(x, y, color='turquoise', width=0.72, label="Count")
+  colours = ['lightcoral', 'indianred','firebrick','darkred']
+  plt.bar(x, y, color=colours, width=0.72, label="Count", edgecolor='black',linewidth = 1.2)
   plt.xlabel('Ages')
   plt.ylabel('Student Responses')
-  plt.title('What Age Range Do You Fall Into?')
-  plt.legend()
+  plt.title('Age Distribution of Survey Respondents')
   plt.show()
 
 # graph the faculty of against the question: Do you think ChatGPT would inhibit education?
@@ -75,7 +74,7 @@ def facultyAndEducation():
   plt.xlabel('Faculty')
   plt.xticks([i for i in range(2)], ['Science', 'Non-Science'])
   plt.ylabel('Student Responses')
-  plt.title('Do you think that using ChatGPT is a form of plagiarism?')
+  plt.title('Public Opinion on ChatGPT and Plagiarism')
   plt.legend(['Yes', 'No'], frameon=False)
 
   #displays number of responses for each bar option
@@ -141,7 +140,7 @@ def chatgptUsageByMajor():
   plt.xlabel('Faculty')
   plt.xticks(np.arange(len(x)), x)
   plt.ylabel('Student Responses')
-  plt.title('Have You Used ChatGPT?')
+  plt.title('ChatGPT Adoption Rates Among Different Majors')
   plt.legend()
   plt.show()
 
@@ -170,7 +169,7 @@ def chatgptUsage():
     _, _, graph = plt.pie(data, labels = options, colors=colours, explode=explode, shadow=True, autopct='%1.1f%%',
                           textprops={'horizontalalignment': 'center', 'verticalalignment': 'center'},
                           wedgeprops={'edgecolor': 'black'})
-    plt.title('Have You Used ChatGPT?')
+    plt.title('ChatGPT Usage: Survey Results')
     plt.show()
 
 def institutions():
@@ -215,7 +214,7 @@ def institutions():
       ax.annotate(name[i], xy=(x, y), xytext=(1.35*np.sign(x), 1.4*y),
               horizontalalignment=horizontalalignment, **kw)
 
-  ax.set_title("Institutions")
+  ax.set_title("Institution Distribution of Survey Respondents")
   plt.show()
 
 def howDoYouUseChatGPT():
@@ -233,7 +232,6 @@ def howDoYouUseChatGPT():
     for row in plots:
         s = str(row[7])
         splitString = s.split(",")
-        print(splitString)
         for w in splitString:
           if w in useCases.keys():
             # If the key exists, increment its value by 1
@@ -247,12 +245,14 @@ def howDoYouUseChatGPT():
       y.append(useCases[k])
 
   plt.figure(figsize=(8,5))
-  plt.bar(x, y, color='b', width=0.5, label="Count")
+  colours = ['orangered','coral','lightsalmon','darksalmon','mistyrose']
+  plt.bar(x, y, color=colours, width=0.5, edgecolor='black',linewidth=1.2)
   plt.xticks(fontsize=6)
   plt.xlabel('Response')
   plt.ylabel('Number of Responses')
-  plt.title('What do You Use ChatGPT For?')
-  plt.legend()
+  plt.title('Primary Uses of ChatGPT as Reported by Survey Respondents')
+  for i, v in enumerate(y):
+    plt.text(i, v+0.1, str(v), color='black', fontweight='bold', ha='center', va='bottom', fontsize=10)
   plt.show()
 
 def gender():
@@ -278,6 +278,7 @@ def gender():
     _, _, graph = plt.pie(y, labels = x, colors=colours, autopct='%1.1f%%', explode=explode, shadow=True)
     for text in graph:
       text.set_color('white')
+    plt.title("Gender Distribution of Survey Respondents")
     plt.show()
 
 def potentialUses():
@@ -302,6 +303,7 @@ def potentialUses():
     for text in graph:
       text.set_color('white')
     plt.legend(x, title="Response", loc="right", bbox_to_anchor=(1.6,0,0.05,2))
+    plt.title("Potential Applications of ChatGPT for Students: Survey Results")
     plt.show()
 
 def chatgptInWork():
@@ -330,7 +332,7 @@ def chatgptInWork():
     # able to split the labels in multiple lines rather than one long line
     wrapped_labels = [ '\n'.join(textwrap.wrap(label, width=20)) for label in labels ]
     plt.yticks(labels, wrapped_labels)
-    plt.title("What Do You Think of ChatGPT In The Workplace?")
+    plt.title("Attitudes Toward ChatGPT in the Workplace")
     plt.subplots_adjust(left=0.25)
     for i, v in enumerate(data):
       plt.text(v + 0.2, i, str(v), color='black', fontweight='bold')
@@ -362,7 +364,7 @@ def chatgptPlagiarism():
     _, _, graph = plt.pie(data, labels=labels, colors=colours, explode=explode, shadow=True, autopct='%1.1f%%',
                           textprops={'horizontalalignment': 'center', 'verticalalignment': 'center', 'weight':'bold'},
                           wedgeprops={'edgecolor': 'black'}, startangle=-105, labeldistance=1.2)
-    plt.title("Is ChatGPT a form of Plagiarism")
+    plt.title("Public Opinion on ChatGPT and Plagiarism")
     plt.show()
 
 #Does ChatGPT inhibit education?
@@ -391,7 +393,7 @@ def chatgptAndEdu():
                           textprops={'horizontalalignment': 'center', 'verticalalignment': 'center', 'weight':'bold'},
                           wedgeprops={'edgecolor': 'black'}, startangle=-105, labeldistance=1.2)
 
-    plt.title("Does ChatGPT Inhibit Education?")
+    plt.title("Understanding Student Perceptions on ChatGPT and Education")
     plt.show()
 
 if __name__ == '__main__':    
