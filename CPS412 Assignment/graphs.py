@@ -1,3 +1,8 @@
+# Jack Heintz (501162746)
+# Tristan Cheng (501163280)
+# Felipe Quiroga (501153511)
+# Brandon Liyanage (501162078)
+
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
@@ -393,10 +398,10 @@ if __name__ == '__main__':
   # chatgptUsageByMajor()
   # chatgptUsage()
   # howDoYouUseChatGPT()
-  # institutions()
+  institutions()
   # gender()
   # potentialUses()
   # chatgptInWork()
-  chatgptPlagiarism()
+  # chatgptPlagiarism()
   # chatgptAndEdu()
   
