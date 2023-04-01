@@ -3,6 +3,8 @@
 # Felipe Quiroga (501153511)
 # Brandon Liyanage (501162078)
 
+# All of lines that call the graph methods are uncommented, to see one at a time, just comment out all the others
+
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
@@ -33,7 +35,7 @@ def graphOfAges():
       x.append(k)
       y.append(ages[k])
 
-  plt.bar(x, y, color='g', width=0.72, label="Count")
+  plt.bar(x, y, color='turquoise', width=0.72, label="Count")
   plt.xlabel('Ages')
   plt.ylabel('Student Responses')
   plt.title('What Age Range Do You Fall Into?')
@@ -393,15 +395,15 @@ def chatgptAndEdu():
     plt.show()
 
 if __name__ == '__main__':    
-  # graphOfAges()
-  # facultyAndEducation()
-  # chatgptUsageByMajor()
-  # chatgptUsage()
-  # howDoYouUseChatGPT()
+  graphOfAges()
+  facultyAndEducation()
+  chatgptUsageByMajor()
+  chatgptUsage()
+  howDoYouUseChatGPT()
   institutions()
-  # gender()
-  # potentialUses()
-  # chatgptInWork()
-  # chatgptPlagiarism()
-  # chatgptAndEdu()
+  gender()
+  potentialUses()
+  chatgptInWork()
+  chatgptPlagiarism()
+  chatgptAndEdu()
   
